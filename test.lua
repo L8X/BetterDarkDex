@@ -1,9 +1,21 @@
-local load_string = getrenv().loadstring or getfenv(0).loadstring
-local shared_env = getrenv().shared
-shared_env.loadstring = load_string
+local ls = getrenv().loadstring or getfenv(0)['loadstring'] 
+_G.loadstr = ls 
 
-getgenv().new_ls = shared_env.loadstring
+local shared_env = getrenv().shared or shared 
 
+shared_env.loadstr = _G.loadstr 
+print(shared_env.loadstr)
+
+local new_ls = shared_env.loadstr 
+print(new_ls) 
+
+local function newls(...) 
+  return new_ls(...) 
+end 
+
+pcall(function() print(newls()) end)
+
+getgenv().new_ls = shared_env.loadstr
 print(new_ls)
 
 
