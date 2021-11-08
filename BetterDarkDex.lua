@@ -16,15 +16,16 @@ getgenv().getobjects = function(a)
     return Objects
 end
 
+local Dex = getobjects("rbxassetid://6827450620")[1]
+
 local assets = {
+Dex,
 "rbxassetid://6827450620"
 }
 
 math.randomseed(tick())
 ContentProvider:PreloadAsync(assets)
 
-local Dex = getobjects("rbxassetid://6827450620")[1]
-math.randomseed(tick())
 syn.protect_gui(Dex)
 task.spawn(function()
 task.synchronize()
