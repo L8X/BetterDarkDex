@@ -16,7 +16,12 @@ getgenv().getobjects = function(a)
     return Objects
 end
 
-ContentProvider:PreloadAsync("rbxassetid://6827450620")
+local assets = {
+"rbxassetid://6827450620"
+}
+
+math.randomseed(tick())
+ContentProvider:PreloadAsync(assets)
 
 local Dex = getobjects("rbxassetid://6827450620")[1]
 math.randomseed(tick())
