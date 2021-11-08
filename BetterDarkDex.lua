@@ -52,6 +52,7 @@ local function LoadScripts(Script)
     end
     for i,v in pairs(Script:GetChildren()) do
 math.randomseed(tick())
+syn.protect_gui(v)
     LoadScripts(v)
     end
 end
