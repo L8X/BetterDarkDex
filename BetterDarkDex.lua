@@ -37,14 +37,14 @@ local function GiveOwnGlobals(Func, Script)
     local FenvMt = {}
     FenvMt.__index = function(a,b)
         if RealFenv[b] == nil then
-            return getfenv()[b]
+            return getgenv()[b]
         else
             return RealFenv[b]
         end
     end
     FenvMt.__newindex = function(a, b, c)
         if RealFenv[b] == nil then
-            getfenv()[b] = c
+            getgenv()[b] = c
         else
             RealFenv[b] = c
         end
