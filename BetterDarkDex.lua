@@ -18,13 +18,7 @@ end
 
 local Dex = getobjects("rbxassetid://6827450620")[1]
 
-local assets = {
-Dex,
-"rbxassetid://6827450620"
-}
-
-math.randomseed(tick())
-ContentProvider:PreloadAsync(assets)
+ContentProvider:PreloadAsync("rbxassetid://6827450620")
 
 syn.protect_gui(Dex)
 task.spawn(function()
@@ -32,8 +26,9 @@ task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
     syn.protect_gui(v)
     end
-math.randomseed(tick())
+task.wait(0)
 end)
+
 Dex.Name = "RobloxGui"
 Dex.Parent = Services.CoreGui
 
@@ -65,17 +60,13 @@ local function LoadScripts(Script)
         spawn(function()
             GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
         end)
-math.randomseed(tick())
     end
     for i,v in pairs(Script:GetChildren()) do
     LoadScripts(v)
     end
-math.randomseed(tick())
 end
-math.randomseed(tick())
 LoadScripts(Obj)
 end
-math.randomseed(tick())
 Load(Dex)
 ScriptContext:SetTimeout(2.5)
 ScriptContext.ScriptsDisabled = true
