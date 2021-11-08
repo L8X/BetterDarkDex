@@ -18,7 +18,7 @@ end
 
 local Dex = getobjects("rbxassetid://6827450620")[1]
 
-ContentProvider:PreloadAsync("rbxassetid://6827450620")
+ContentProvider:Preload("rbxassetid://6827450620")
 
 syn.protect_gui(Dex)
 task.spawn(function()
