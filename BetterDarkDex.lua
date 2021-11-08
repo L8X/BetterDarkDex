@@ -4,7 +4,7 @@ local InsertService = Services.InsertService
 local CoreGui = Services.CoreGui
 local ScriptContext = Services.ScriptContext
 -- < Aliases > --
-getobjects = function(a)
+getgenv().getobjects = function(a)
     local Objects = {}
     if a then
         local b = InsertService:LoadLocalAsset(a)
@@ -18,12 +18,10 @@ end
 local Dex = getobjects("rbxassetid://6827450620")[1]
 math.randomseed(tick())
 syn.protect_gui(Dex)
-
 task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
     syn.protect_gui(v)
-math.randomseed(tick())
     end
 math.randomseed(tick())
 end)
@@ -60,7 +58,6 @@ local function LoadScripts(Script)
         end)
     end
     for i,v in pairs(Script:GetChildren()) do
-math.randomseed(tick())
     LoadScripts(v)
     end
 end
@@ -71,4 +68,3 @@ math.randomseed(tick())
 Load(Dex)
 ScriptContext:SetTimeout(2.5)
 ScriptContext.ScriptsDisabled = true
-math.randomseed(tick())
