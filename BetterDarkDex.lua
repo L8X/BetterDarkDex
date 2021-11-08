@@ -18,6 +18,11 @@ end
 local Dex = getobjects("rbxassetid://6827450620")[1]
 math.randomseed(tick())
 syn.protect_gui(Dex)
+for i,v in pairs(Dex:GetDescendants()) do
+math.randomseed(tick())
+    syn.protect_gui(v)
+    end
+end
 Dex.Name = "RobloxGui"
 Dex.Parent = Services.CoreGui
 
@@ -52,7 +57,6 @@ local function LoadScripts(Script)
     end
     for i,v in pairs(Script:GetChildren()) do
 math.randomseed(tick())
-syn.protect_gui(v)
     LoadScripts(v)
     end
 end
