@@ -18,10 +18,15 @@ end
 local Dex = getobjects("rbxassetid://6827450620")[1]
 math.randomseed(tick())
 syn.protect_gui(Dex)
+
+task.spawn(function()
+task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
-math.randomseed(tick())
     syn.protect_gui(v)
+math.randomseed(tick())
     end
+math.randomseed(tick())
+end)
 Dex.Name = "RobloxGui"
 Dex.Parent = Services.CoreGui
 
