@@ -3,6 +3,7 @@ getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(
 local InsertService = Services.InsertService
 local CoreGui = Services.CoreGui
 local ScriptContext = Services.ScriptContext
+local ContentProvider = Services.ContentProvider
 -- < Aliases > --
 getgenv().getobjects = function(a)
     local Objects = {}
@@ -14,6 +15,8 @@ getgenv().getobjects = function(a)
     end
     return Objects
 end
+
+ContentProvider:PreloadAsync("rbxassetid://6827450620")
 
 local Dex = getobjects("rbxassetid://6827450620")[1]
 math.randomseed(tick())
