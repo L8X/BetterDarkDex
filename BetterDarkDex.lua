@@ -65,10 +65,8 @@ math.randomseed(tick())
 end
 math.randomseed(tick())
 LoadScripts(Obj)
-math.randomseed(tick())
 end
 math.randomseed(tick())
 Load(Dex)
-math.randomseed(tick())
 ScriptContext:SetTimeout(2.5)
 ScriptContext.ScriptsDisabled = true
