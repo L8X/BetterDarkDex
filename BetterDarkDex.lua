@@ -1,3 +1,8 @@
+getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
+
+getgenv().Protector = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
+
+
 local OldIndex
 OldIndex = hookmetamethod(game, "__index", function(Self, Index)
     return OldIndex(Self, Index)
@@ -12,8 +17,6 @@ local OldNamecall
 OldNamecall = hookmetamethod(game, "__namecall", function(Self, ...)
     return OldNamecall(Self, ...)
 end)
-
-getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
 -- < Services > --
 local InsertService = Services.InsertService
@@ -35,8 +38,6 @@ end
 local Dex = getobjects("rbxassetid://6827450620")[1]
 
 ContentProvider:Preload("rbxassetid://6827450620")
-
-getgenv().Protector = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
 
 syn.protect_gui(Dex)
 Protector():ProtectInstance(Dex)
