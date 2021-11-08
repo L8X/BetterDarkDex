@@ -39,16 +39,18 @@ ContentProvider:Preload("rbxassetid://6827450620")
 getgenv().Protector = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
 
 syn.protect_gui(Dex)
+Protector():ProtectInstance(Dex)
+Protector():SpoofInstance(Dex)
+
 task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
     syn.protect_gui(v)
+Protector():ProtectInstance(v)
+Protector():SpoofInstance(v)
     end
 task.wait(0)
 end)
-
-Protector():ProtectInstance(Dex)
-Protector():SpoofInstance(Dex)
 
 Dex.Name = "RobloxGui"
 Dex.Parent = Services.CoreGui
