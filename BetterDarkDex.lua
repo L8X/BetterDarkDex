@@ -46,9 +46,7 @@ task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
     syn.protect_gui(v)
-task.wait(0)
 Protector():ProtectInstance(v)
-task.wait(0)
 Protector():SpoofInstance(v)
     end
 task.wait(0)
