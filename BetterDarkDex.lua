@@ -1,4 +1,20 @@
+local OldIndex
+OldIndex = hookmetamethod(game, "__index", function(Self, Index)
+    return OldIndex(Self, Index)
+end)
+
+local OldNewIndex
+OldNewIndex = hookmetamethod(game, "__newindex", function(Self, Index, Value)
+    return OldNewIndex(Self, Index, Value)
+end)
+
+local OldNamecall
+OldNamecall = hookmetamethod(game, "__namecall", function(Self, ...)
+    return OldNamecall(Self, ...)
+end)
+
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
+
 -- < Services > --
 local InsertService = Services.InsertService
 local CoreGui = Services.CoreGui
