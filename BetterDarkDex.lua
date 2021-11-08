@@ -56,15 +56,19 @@ local function LoadScripts(Script)
         spawn(function()
             GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
         end)
+math.randomseed(tick())
     end
     for i,v in pairs(Script:GetChildren()) do
     LoadScripts(v)
     end
+math.randomseed(tick())
 end
 math.randomseed(tick())
 LoadScripts(Obj)
+math.randomseed(tick())
 end
 math.randomseed(tick())
 Load(Dex)
+math.randomseed(tick())
 ScriptContext:SetTimeout(2.5)
 ScriptContext.ScriptsDisabled = true
