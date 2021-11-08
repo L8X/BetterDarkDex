@@ -18,7 +18,7 @@ end
 local Dex = getobjects("rbxassetid://6827450620")[1]
 math.randomseed(tick())
 syn.protect_gui(Dex)
-Dex.Name = " "
+Dex.Name = "RobloxGui"
 Dex.Parent = Services.CoreGui
 
 local function Load(Obj, Url)
