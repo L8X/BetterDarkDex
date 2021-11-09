@@ -41,14 +41,12 @@ ContentProvider:Preload("rbxassetid://6827450620")
 
 syn.protect_gui(Dex)
 Protector():ProtectInstance(Dex)
-Protector():SpoofInstance(Dex)
 
 task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
     syn.protect_gui(v)
 Protector():ProtectInstance(v)
-Protector():SpoofInstance(v)
     end
 task.wait(0)
 end)
