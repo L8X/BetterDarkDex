@@ -60,6 +60,9 @@ local CoreGui = Services.CoreGui
 local ScriptContext = Services.ScriptContext
 local ContentProvider = Services.ContentProvider
 
+Services.HttpService:SetHttpEnabled(true)
+settings()['Task Scheduler'].ThreadPoolConfig = Enum.ThreadPoolConfig.Threads16
+
 ScriptContext:SetTimeout(5)
 -- < Aliases > --
 getgenv().getobjects = function(a)
