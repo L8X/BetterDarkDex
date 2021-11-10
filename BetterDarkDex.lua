@@ -100,4 +100,11 @@ Protector():SpoofInstance(Obj)
 end
 Load(Dex)
 syn.protect_gui(Dex)
+
+for i, v in next, spec.getcons(game:GetService("UserInputService").TextBoxFocused) do
+    v:Disable()
+end
+for i, v in next, spec.getcons(game:GetService("UserInputService").TextBoxFocusReleased) do
+    v:Disable()
+end
 ScriptContext.ScriptsDisabled = true
