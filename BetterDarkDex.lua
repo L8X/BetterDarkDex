@@ -44,11 +44,22 @@ task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
     syn.protect_gui(v)
-    Protector():ProtectInstance(v, true)
-    Protector():SpoofInstance(v, true)
     end
 task.wait(0)
 end)
+
+task.defer(function()
+task.synchronize()
+for i,v in pairs(Dex:GetChildren()) do
+     task.wait(0)
+    Protector():ProtectInstance(v, true)
+     task.wait(0)
+   Protector():SpoofInstance(v, v)
+       task.wait(0)
+    end
+task.wait(0)
+end)
+
 
 Dex.Name = "RobloxGui"
 syn.protect_gui(Dex)
