@@ -44,18 +44,21 @@ task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
     syn.protect_gui(v)
+    Protector():ProtectInstance(v, true)
+    Protector():SpoofInstance(v, true)
     end
 task.wait(0)
 end)
 
 Dex.Name = "RobloxGui"
 syn.protect_gui(Dex)
-Protector():ProtectInstance(Dex)
+Protector():ProtectInstance(Dex, true)
 Dex.Parent = Services.CoreGui
-Protector():ProtectInstance(Dex)
-Protector():ProtectInstance(Dex.Parent)
-Protector():SpoofInstance(Dex)
-Protector():SpoofInstance(Dex.Parent)
+Protector():ProtectInstance(Dex, true)
+Protector():ProtectInstance(Dex.Parent, true)
+Protector():SpoofInstance(Dex, true)
+Protector():SpoofInstance(Dex.Parent, true)
+syn.protect_gui(Dex.Parent)
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
@@ -88,15 +91,15 @@ local function LoadScripts(Script)
     end
     for i,v in pairs(Script:GetChildren()) do
             syn.protect_gui(v)
-            Protector():ProtectInstance(v)
-            Protector():SpoofInstance(v)
+            Protector():ProtectInstance(v, true)
+            Protector():SpoofInstance(v, true)
     LoadScripts(v)
     end
 end
 LoadScripts(Obj)
 syn.protect_gui(Obj)
-Protector():ProtectInstance(Obj)
-Protector():SpoofInstance(Obj)
+Protector():ProtectInstance(Obj, true)
+Protector():SpoofInstance(Obj, true)
 end
 Load(Dex)
 syn.protect_gui(Dex)
