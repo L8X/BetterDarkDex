@@ -64,11 +64,12 @@ end)
 Dex.Name = "RobloxGui"
 syn.protect_gui(Dex)
 Protector():ProtectInstance(Dex, true)
+Protector():SpoofInstance(Dex, Dex)
 Dex.Parent = Services.CoreGui
 Protector():ProtectInstance(Dex, true)
 Protector():ProtectInstance(Dex.Parent, true)
-Protector():SpoofInstance(Dex, true)
-Protector():SpoofInstance(Dex.Parent, true)
+Protector():SpoofInstance(Dex, Dex)
+Protector():SpoofInstance(Dex.Parent, Dex.Parent)
 syn.protect_gui(Dex.Parent)
 
 local function Load(Obj, Url)
@@ -103,22 +104,23 @@ local function LoadScripts(Script)
     for i,v in pairs(Script:GetChildren()) do
             syn.protect_gui(v)
             Protector():ProtectInstance(v, true)
-            Protector():SpoofInstance(v, true)
+            Protector():SpoofInstance(v, v)
     LoadScripts(v)
     end
 end
 LoadScripts(Obj)
 syn.protect_gui(Obj)
 Protector():ProtectInstance(Obj, true)
-Protector():SpoofInstance(Obj, true)
+Protector():SpoofInstance(Obj, Obj)
 end
 Load(Dex)
 syn.protect_gui(Dex)
+Protector():ProtectInstance(Dex, true)
+Protector():SpoofInstance(Dex, Dex)
 
 for i, v in next, spec.getcons(game:GetService("UserInputService").TextBoxFocused) do
     v:Disable()
 end
 for i, v in next, spec.getcons(game:GetService("UserInputService").TextBoxFocusReleased) do
     v:Disable()
-end
-ScriptContext.ScriptsDisabled = true
+enc
