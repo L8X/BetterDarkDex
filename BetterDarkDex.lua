@@ -109,7 +109,7 @@ for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased)
     v:Disable()
 end 
 
-local function TextBoxProtect() 
+spawn(function()
 while Services.RunService.RenderStepped:Wait() do
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
     v:Disable()
@@ -118,15 +118,11 @@ for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased)
     v:Disable()
 end
 end
-end
+end)
 
 task.spawn(function()
 task.synchronize()
 Protector():ProtectInstance(Dex, true)
 Protector():ProtectInstance(Dex, Dex)
 task.wait()
-end)
-
-spawn(function()
-TextBoxProtect()
 end)
