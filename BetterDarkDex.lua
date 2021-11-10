@@ -102,28 +102,22 @@ syn.protect_gui(Dex)
 Protector():ProtectInstance(Dex, true)
 Protector():SpoofInstance(Dex, Dex)
 
-for i = 1, 10000 do
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
     v:Disable()
 end
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased) do
     v:Disable()
-end
 end 
 
 local function TextBoxProtect() 
-task.defer(function()
-task.synchronize()
-while task.wait() do
+while Services.RunService.RenderStepped:Wait() do
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
     v:Disable()
 end
-task.wait()
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased) do
     v:Disable()
 end
 end
-end)
 end
 
 task.spawn(function()
