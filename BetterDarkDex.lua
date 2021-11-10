@@ -84,9 +84,11 @@ local function LoadScripts(Script)
     end
     for i,v in pairs(Script:GetChildren()) do
     LoadScripts(v)
+    syn.protect_gui(v)
     end
 end
 LoadScripts(Obj)
+syn.protect_gui(Obj)
 end
 Load(Dex)
 ScriptContext:SetTimeout(5)
