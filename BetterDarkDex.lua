@@ -13,6 +13,39 @@ OldNamecall = hookmetamethod(game, "__namecall", function(Self, ...)
     return OldNamecall(Self, ...)
 end)
 
+local mt = getrawmetatable(game)
+
+local old
+old = hookfunction(mt.__namecall, function(...)
+   return old(...)
+end)
+
+local function get_proxy_game_metatable(x)
+ local proxy = {}
+  local mt_func_list = {
+    
+ }
+ local proxy_mt = {
+    __newindex = function(t,k,v)
+       local old
+       old = hookmetamethod(game,k,v)
+       mt_func_list[k] = old
+     end;
+      __index = function(t,k)
+         return function(...)
+             local list_func =  mt_func_list[k]
+              local unpack_pcall = {pcall(list_func,...)}
+           if unpack_pcall[1] == true then
+                 table.remove(unpack_pcall,1)
+              return unpack(unpack_pcall)
+                end
+          end
+        end
+  }
+ return setmetatable(proxy,proxy_mt)
+end
+hookfunction(getrawmetatable,get_proxy_game_metatable)
+
 getrenv().error = function() end
 getrenv().warn = function() end
 getrenv().print = function() end
@@ -51,9 +84,6 @@ for i,v in pairs(Dex:GetDescendants()) do
     end
 task.wait(0)
 end)
-
-
-
 
 Dex.Name = "RobloxGui"
 syn.protect_gui(Dex)
@@ -130,3 +160,27 @@ Protector():ProtectInstance(Dex, true)
 Protector():ProtectInstance(Dex, Dex)
 task.wait()
 end)
+
+Protector():ProtectInstance(Dex)
+Protector():ProtectInstance(Dex, true)
+
+
+Inputting = false
+ChatBar = nil
+Current = nil
+
+function Check()
+	wait(.1)
+	Inputting = false
+	Disconnection:Disconnect()
+end
+
+function InputBegan()
+	if game:GetService("UserInputService"):GetFocusedTextBox() then
+		ChatBar = game:GetService("UserInputService"):GetFocusedTextBox()
+		Inputting = true
+		Current = ChatBar.FocusLost
+		Disconnection = Current:Connect(Check)
+	end
+end
+InputConnect = game:GetService("UserInputService").InputBegan:Connect(InputBegan)
