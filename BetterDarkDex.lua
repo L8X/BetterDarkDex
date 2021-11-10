@@ -23,6 +23,8 @@ local InsertService = Services.InsertService
 local CoreGui = Services.CoreGui
 local ScriptContext = Services.ScriptContext
 local ContentProvider = Services.ContentProvider
+
+ScriptContext:SetTimeout(5)
 -- < Aliases > --
 getgenv().getobjects = function(a)
     local Objects = {}
@@ -39,9 +41,6 @@ local Dex = getobjects("rbxassetid://6827450620")[1]
 
 ContentProvider:Preload("rbxassetid://6827450620")
 
-syn.protect_gui(Dex)
-Protector():ProtectInstance(Dex)
-
 task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
@@ -51,7 +50,11 @@ task.wait(0)
 end)
 
 Dex.Name = "RobloxGui"
+syn.protect_gui(Dex)
+Protector():ProtectInstance(Dex)
 Dex.Parent = Services.CoreGui
+Protector():ProtectInstance(Dex)
+Protector():SpoofInstance(Dex)
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
@@ -83,13 +86,15 @@ local function LoadScripts(Script)
         end)
     end
     for i,v in pairs(Script:GetChildren()) do
+            syn.protect_gui(v)
     LoadScripts(v)
-    syn.protect_gui(v)
     end
 end
 LoadScripts(Obj)
 syn.protect_gui(Obj)
 end
 Load(Dex)
-ScriptContext:SetTimeout(5)
+syn.protect_gui(Dex)
+Protector():ProtectInstance(Dex)
+Protector():SpoofInstance(Dex)
 ScriptContext.ScriptsDisabled = true
