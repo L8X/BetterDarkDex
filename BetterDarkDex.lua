@@ -52,7 +52,7 @@ getrenv().print = function() end
 
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
-getgenv().Protector = loadstring(game:HttpGet("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
+getgenv().Protector = loadstring(game:HttpGet("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua", true, Enum.HttpRequestType.Analytics, true))
 
 -- < Services > --
 local InsertService = Services.InsertService
