@@ -1,6 +1,6 @@
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
-getgenv().Protector = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua", "isInternal"))
+getgenv().Protector = loadstring(game:HttpGet("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
 
 local OldIndex
 OldIndex = hookmetamethod(game, "__index", function(Self, Index)
@@ -102,21 +102,18 @@ syn.protect_gui(Dex)
 Protector():ProtectInstance(Dex, true)
 Protector():SpoofInstance(Dex, Dex)
 
-for i, v in next, getconnections(game:GetService("UserInputService").TextBoxFocused) do
+for i = 1, 10000 do
+for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
     v:Disable()
 end
-for i, v in next, getconnections(game:GetService("UserInputService").TextBoxFocusReleased) do
+for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased) do
     v:Disable()
 end
+end 
 
-task.defer(function()
+task.spawn(function()
 task.synchronize()
-for i,v in pairs(Dex:GetChildren()) do
-     task.wait(0)
-    Protector():ProtectInstance(v, true)
-     task.wait(0)
-   Protector():SpoofInstance(v, v)
-       task.wait(0)
-    end
-task.wait(0)
+Protector():ProtectInstance(Dex, true)
+Protector():ProtectInstance(Dex, Dex)
+task.wait()
 end)
