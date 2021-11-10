@@ -48,17 +48,7 @@ for i,v in pairs(Dex:GetDescendants()) do
 task.wait(0)
 end)
 
-task.defer(function()
-task.synchronize()
-for i,v in pairs(Dex:GetChildren()) do
-     task.wait(0)
-    Protector():ProtectInstance(v, true)
-     task.wait(0)
-   Protector():SpoofInstance(v, v)
-       task.wait(0)
-    end
-task.wait(0)
-end)
+
 
 
 Dex.Name = "RobloxGui"
@@ -123,4 +113,16 @@ for i, v in next, spec.getcons(game:GetService("UserInputService").TextBoxFocuse
 end
 for i, v in next, spec.getcons(game:GetService("UserInputService").TextBoxFocusReleased) do
     v:Disable()
-enc
+end
+
+task.defer(function()
+task.synchronize()
+for i,v in pairs(Dex:GetChildren()) do
+     task.wait(0)
+    Protector():ProtectInstance(v, true)
+     task.wait(0)
+   Protector():SpoofInstance(v, v)
+       task.wait(0)
+    end
+task.wait(0)
+end)
