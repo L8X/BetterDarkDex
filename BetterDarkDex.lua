@@ -1,6 +1,6 @@
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
-getgenv().Protector = loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
+getgenv().Protector = loadstring(game:HttpGet("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
 
 
 local OldIndex
@@ -46,7 +46,6 @@ task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
     syn.protect_gui(v)
-Protector():ProtectInstance(v)
     end
 task.wait(0)
 end)
@@ -90,5 +89,5 @@ end
 LoadScripts(Obj)
 end
 Load(Dex)
-ScriptContext:SetTimeout(2.5)
+ScriptContext:SetTimeout(5)
 ScriptContext.ScriptsDisabled = true
