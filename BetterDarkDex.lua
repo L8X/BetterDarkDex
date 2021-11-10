@@ -1,8 +1,3 @@
-getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
-
-getgenv().Protector = loadstring(game:HttpGet("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
-
-
 local OldIndex
 OldIndex = hookmetamethod(game, "__index", function(Self, Index)
     return OldIndex(Self, Index)
@@ -17,6 +12,10 @@ local OldNamecall
 OldNamecall = hookmetamethod(game, "__namecall", function(Self, ...)
     return OldNamecall(Self, ...)
 end)
+
+getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
+
+getgenv().Protector = loadstring(game:HttpGet("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua"))
 
 -- < Services > --
 local InsertService = Services.InsertService
@@ -54,7 +53,9 @@ syn.protect_gui(Dex)
 Protector():ProtectInstance(Dex)
 Dex.Parent = Services.CoreGui
 Protector():ProtectInstance(Dex)
+Protector():ProtectInstance(Dex.Parent)
 Protector():SpoofInstance(Dex)
+Protector():SpoofInstance(Dex.Parent)
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
@@ -87,14 +88,16 @@ local function LoadScripts(Script)
     end
     for i,v in pairs(Script:GetChildren()) do
             syn.protect_gui(v)
+            Protector():ProtectInstance(v)
+            Protector():SpoofInstance(v)
     LoadScripts(v)
     end
 end
 LoadScripts(Obj)
 syn.protect_gui(Obj)
+Protector():ProtectInstance(Obj)
+Protector():SpoofInstance(Obj)
 end
 Load(Dex)
 syn.protect_gui(Dex)
-Protector():ProtectInstance(Dex)
-Protector():SpoofInstance(Dex)
 ScriptContext.ScriptsDisabled = true
