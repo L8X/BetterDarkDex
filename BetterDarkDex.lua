@@ -45,7 +45,7 @@ local function get_proxy_game_metatable(x)
   }
  return setmetatable(proxy,proxy_mt)
 end
---hookfunction(getrawmetatable,get_proxy_game_metatable)
+hookfunction(getrawmetatable,get_proxy_game_metatable)
 end
 
 getrenv().error = function() end
