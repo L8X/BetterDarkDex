@@ -1,3 +1,4 @@
+if hookfunction and hookmetamethod and getrawmetatable then
 local OldIndex
 OldIndex = hookmetamethod(game, "__index", function(Self, Index)
     return OldIndex(Self, Index)
@@ -45,14 +46,18 @@ local function get_proxy_game_metatable(x)
  return setmetatable(proxy,proxy_mt)
 end
 --hookfunction(getrawmetatable,get_proxy_game_metatable)
+end
 
 getrenv().error = function() end
 getrenv().warn = function() end
 getrenv().print = function() end
 
+
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
+if hookfunction and hookmetamethod and getrawmetatable then
 getgenv().Protector = loadstring(game:HttpGet("https://raw.githubusercontent.com/pamlib/prote.lua/ca01e9b8b3478762370d4a1d1ee65bae6ee881a3/main.lua", true, Enum.HttpRequestType.Analytics, true))
+end
 
 -- < Services > --
 local InsertService = Services.InsertService
@@ -90,11 +95,15 @@ end)
 
 Dex.Name = "RobloxGui"
 pcall(function() syn.protect_gui(Dex) end)
+if gethui then
+Dex.Parent = gethui()
+else
 Dex.Parent = Services.CoreGui
-Protector():ProtectInstance(Dex, true)
-Protector():ProtectInstance(Dex.Parent, true)
-Protector():SpoofInstance(Dex, Dex)
-Protector():SpoofInstance(Dex.Parent, Dex.Parent)
+end
+pcall(function() Protector():ProtectInstance(Dex, true) end)
+pcall(function() Protector():ProtectInstance(Dex.Parent, true) end)
+pcall(function() Protector():SpoofInstance(Dex, Dex) end)
+pcall(function() Protector():SpoofInstance(Dex.Parent, Dex.Parent) end)
 pcall(function() syn.protect_gui(Dex.Parent) end)
 
 local function Load(Obj, Url)
@@ -136,8 +145,8 @@ pcall(function() syn.protect_gui(Obj) end)
 end
 Load(Dex)
 pcall(function() syn.protect_gui(Dex) end)
-Protector():ProtectInstance(Dex, true)
-Protector():SpoofInstance(Dex, Dex)
+pcall(function() Protector():ProtectInstance(Dex, true) end)
+pcall(function() Protector():SpoofInstance(Dex, Dex) end)
 
 pcall(function()
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
@@ -163,13 +172,14 @@ end)
 
 task.spawn(function()
 task.synchronize()
-Protector():ProtectInstance(Dex, true)
-Protector():ProtectInstance(Dex, Dex)
+pcall(function() Protector():ProtectInstance(Dex, true) end)
+pcall(function() Protector():ProtectInstance(Dex, Dex) end)
 task.wait()
 end)
 
-Protector():ProtectInstance(Dex)
-Protector():ProtectInstance(Dex, true)
+
+pcall(function() Protector():ProtectInstance(Dex) end)
+pcall(function() Protector():ProtectInstance(Dex, true) end)
 
 
 Inputting = false
