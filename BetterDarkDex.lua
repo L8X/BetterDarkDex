@@ -83,19 +83,19 @@ ContentProvider:Preload("rbxassetid://6827450620")
 task.spawn(function()
 task.synchronize()
 for i,v in pairs(Dex:GetDescendants()) do
-    syn.protect_gui(v)
+    pcall(function() syn.protect_gui(v) end)
     end
 task.wait(0)
 end)
 
 Dex.Name = "RobloxGui"
-syn.protect_gui(Dex)
+pcall(function() syn.protect_gui(Dex) end)
 Dex.Parent = Services.CoreGui
 Protector():ProtectInstance(Dex, true)
 Protector():ProtectInstance(Dex.Parent, true)
 Protector():SpoofInstance(Dex, Dex)
 Protector():SpoofInstance(Dex.Parent, Dex.Parent)
-syn.protect_gui(Dex.Parent)
+pcall(function() syn.protect_gui(Dex.Parent) end)
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
@@ -127,26 +127,29 @@ local function LoadScripts(Script)
         end)
     end
     for i,v in pairs(Script:GetChildren()) do
-            syn.protect_gui(v)
+          pcall(function() syn.protect_gui(v) end)
     LoadScripts(v)
     end
 end
 LoadScripts(Obj)
-syn.protect_gui(Obj)
+pcall(function() syn.protect_gui(Obj) end)
 end
 Load(Dex)
-syn.protect_gui(Dex)
+pcall(function() syn.protect_gui(Dex) end)
 Protector():ProtectInstance(Dex, true)
 Protector():SpoofInstance(Dex, Dex)
 
+pcall(function()
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
     v:Disable()
 end
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased) do
     v:Disable()
 end 
+end)
 
 spawn(function()
+pcall(function()
 while Services.RunService.RenderStepped:Wait() do
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
     v:Disable()
@@ -155,6 +158,7 @@ for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased)
     v:Disable()
 end
 end
+end)
 end)
 
 task.spawn(function()
