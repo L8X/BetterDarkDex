@@ -85,14 +85,6 @@ local Dex = getobjects("rbxassetid://6827450620")[1]
 
 ContentProvider:Preload("rbxassetid://6827450620")
 
-task.spawn(function()
-task.synchronize()
-for i,v in pairs(Dex:GetDescendants()) do
-    pcall(function() syn.protect_gui(v) end)
-    end
-task.wait(0)
-end)
-
 Dex.Name = "RobloxGui"
 pcall(function() syn.protect_gui(Dex) end)
 if gethui then
