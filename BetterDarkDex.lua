@@ -32,11 +32,13 @@ ContentProvider:Preload("rbxassetid://6827450620")
 Dex.Name = "RobloxGui"
 pcall(function() if syn then syn.protect_gui(Dex) end end)
 
+pcall(function()
 if gethui then
 Dex.Parent = gethui()
 else
 Dex.Parent = Services.CoreGui
 end
+end)
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
