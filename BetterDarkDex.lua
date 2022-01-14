@@ -1,5 +1,7 @@
 if (getgenv().DEX_LOADED) then return; end
 
+getgenv().DEX_LOADED = true
+
 local Rand = math.random(1e9, 2e9)
 math.randomseed(tick())
 warn(Rand)
@@ -119,8 +121,6 @@ end
 LoadScripts(Obj)
 end
 Load(Dex)
-
-getgenv().DEX_LOADED = true
 
 pcall(function()
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
