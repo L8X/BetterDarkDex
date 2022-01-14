@@ -1,3 +1,7 @@
+local Rand = math.random(1e9, 2e9)
+math.randomseed(tick())
+warn(Rand)
+
 pcall(function()
 if setreadonly and getrawmetatable then
 local mt = getrawmetatable(game)
