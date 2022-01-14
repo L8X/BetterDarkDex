@@ -2,6 +2,8 @@ local Rand = math.random(1e9, 2e9)
 math.randomseed(tick())
 warn(Rand)
 
+if (getgenv().DEX_LOADED) then return; end
+
 pcall(function()
 if setreadonly and getrawmetatable then
 local mt = getrawmetatable(game)
@@ -117,6 +119,8 @@ end
 LoadScripts(Obj)
 end
 Load(Dex)
+
+getgenv().DEX_LOADED = true
 
 pcall(function()
 for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
