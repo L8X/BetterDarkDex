@@ -23,13 +23,13 @@ local Dex = getobjects("rbxassetid://6827450620")[1]
 ContentProvider:Preload("rbxassetid://6827450620")
 
 Dex.Name = "RobloxGui"
-pcall(function() syn.protect_gui(Dex) end)
+pcall(function() if syn then syn.protect_gui(Dex) end end)
+
 if gethui then
 Dex.Parent = gethui()
 else
 Dex.Parent = Services.CoreGui
 end
-pcall(function() syn.protect_gui(Dex.Parent) end)
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
@@ -76,23 +76,3 @@ for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased)
     v:Disable()
 end 
 end)
-
-Inputting = false
-ChatBar = nil
-Current = nil
-
-function Check()
-	wait(.1)
-	Inputting = false
-	Disconnection:Disconnect()
-end
-
-function InputBegan()
-	if game:GetService("UserInputService"):GetFocusedTextBox() then
-		ChatBar = game:GetService("UserInputService"):GetFocusedTextBox()
-		Inputting = true
-		Current = ChatBar.FocusLost
-		Disconnection = Current:Connect(Check)
-	end
-end
-InputConnect = game:GetService("UserInputService").InputBegan:Connect(InputBegan)
