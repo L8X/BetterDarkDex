@@ -1,3 +1,10 @@
+pcall(function()
+if setreadonly and getrawmetatable then
+local mt = getrawmetatable(game)
+setreadonly(mt, false)
+end
+end)
+
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
 -- < Services > --
