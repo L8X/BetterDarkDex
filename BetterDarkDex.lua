@@ -7,6 +7,16 @@ math.randomseed(tick())
 warn(Rand)
 
 pcall(function()
+if identifyexecutor() == "ScriptWare" then
+local function decomp(a)
+    return tostring(disassemble(getscriptbytecode(a)))
+end
+
+getgenv().decompile = decomp
+end
+end)
+
+pcall(function()
 if setreadonly and getrawmetatable then
 local mt = getrawmetatable(game)
 setreadonly(mt, false)
