@@ -5,8 +5,8 @@ setreadonly(mt, false)
 end
 end)
 
-if hookmetamethod and hookfunction then
 pcall(function()
+if hookmetamethod and hookfunction then
 local OldIndex
 OldIndex = hookmetamethod(game, "__index", function(Self, Index)
     return OldIndex(Self, Index)
@@ -28,19 +28,19 @@ local old
 old = hookfunction(mt.__namecall, function(...)
    return old(...)
 end)
-end)
 end
+end)
 
-if hookfunction and getrenv then
 pcall(function()
+if hookfunction and getrenv then
 local memCheckBypass
 
 memCheckBypass = hookfunction(getrenv().gcinfo, function(...)
    --warn("Script tried to memory check, PATH: \n"..debug.traceback())
    return tonumber(math.random(55-math.random(1,45), 110-math.random(1,35)*0.215-math.random(1, 45)))
 end)
-end)
 end
+end)
 
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
