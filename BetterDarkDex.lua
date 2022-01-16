@@ -80,18 +80,19 @@ getgenv().getobjects = function(a)
     return Objects
 end
 
-local Dex = getobjects("rbxassetid://6827450620")[1]
+local Dex = getobjects("rbxassetid://8555677866")[1]
 
-ContentProvider:Preload("rbxassetid://6827450620")
+ContentProvider:Preload("rbxassetid://8555677866")
 
-Dex.Name = "RobloxGui"
 pcall(function() if syn then syn.protect_gui(Dex) end end)
 
 pcall(function()
 if gethui then
 Dex.Parent = gethui()
+Dex.Name = "RobloxGui"
 else
 Dex.Parent = Services.CoreGui
+Dex.Name = "RobloxGui"
 end
 end)
 
