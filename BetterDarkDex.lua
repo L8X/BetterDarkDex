@@ -80,9 +80,9 @@ getgenv().getobjects = function(a)
     return Objects
 end
 
-local Dex = getobjects("rbxassetid://8555677866")[1]
+local Dex = getobjects("rbxassetid://8555736498")[1]
 
-ContentProvider:Preload("rbxassetid://8555677866")
+ContentProvider:Preload("rbxassetid://8555736498")
 
 pcall(function() if syn then syn.protect_gui(Dex) end end)
 
