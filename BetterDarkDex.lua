@@ -80,6 +80,32 @@ getgenv().getobjects = function(a)
     return Objects
 end
 
+function CreateInstance(cls,props)
+	local inst = Instance.new(cls)
+	for i,v in pairs(props) do
+		inst[i] = v
+	end
+	return inst
+end
+
+local function protectedGui()
+    local DexGui = Services.CoreGui:FindFirstChildOfClass('ScreenGui') or CreateInstance("ScreenGui",{DisplayOrder=0,Enabled=true,ResetOnSpawn=true})
+	if syn and syn.protect_gui or protect_gui then (syn.protect_gui or protect_gui)(DexGui) else
+	    if getconnections then
+	        local function cleancons(v)
+	            for i,v in pairs(getconnections(v)) do
+	                v:Disconnect()
+	            end
+	        end
+	        cleancons(DexGui.DescendantAdded)
+	        cleancons(DexGui.ChildAdded)
+	        cleancons(Services.CoreGui.DescendantAdded)
+	        cleancons(game.DescendantAdded)
+	    end
+	end
+	return DexGui
+end
+
 local Dex = getobjects("rbxassetid://8555825815")[1]
 
 ContentProvider:Preload("rbxassetid://8555825815")
@@ -91,7 +117,7 @@ if gethui then
 Dex.Parent = gethui()
 Dex.Name = "RobloxGui"
 else
-Dex.Parent = Services.CoreGui
+Dex.Parent = protectedGui()
 Dex.Name = "RobloxGui"
 end
 end)
