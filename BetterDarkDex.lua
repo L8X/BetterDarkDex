@@ -106,19 +106,39 @@ local function protectedGui()
 	return DexGui
 end
 
+
+
 local Dex = getobjects("rbxassetid://8555825815")[1]
 
 ContentProvider:Preload("rbxassetid://8555825815")
 
+local function Preload(obj)
+    for i,v in pairs(obj:GetDescendants()) do
+        ContentProvider:PreloadAsync({v})
+    end
+end
+
+Preload(Dex)
+ 
 pcall(function() if syn then syn.protect_gui(Dex) end end)
+
+local function Protect(obj)
+    for i,v in pairs(obj:GetDescendants()) do
+        syn.protect_gui(v)
+    end
+end
+
+pcall(function()
+if syn and syn.protect_gui then
+Protect(Dex)
+end
+end)
 
 pcall(function()
 if identifyexecutor() == "ScriptWare" then
 Dex.Parent = gethui()
-Dex.Name = "RobloxGui"
 else
 Dex.Parent = protectedGui()
-Dex.Name = "RobloxGui"
 end
 end)
 
@@ -146,10 +166,9 @@ local function GiveOwnGlobals(Func, Script)
     setfenv(Func, Fenv)
     return Func
 end
-
 local function LoadScripts(Script)
     if Script.ClassName == "Script" or Script.ClassName == "LocalScript" then
-        task.spawn(function()
+        spawn(function()
             GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
         end)
     end
