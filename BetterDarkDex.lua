@@ -142,6 +142,11 @@ Dex.Parent = protectedGui()
 end
 end)
 
+pcall(function()
+if sethiddenproperty then
+sethiddenproperty(Dex, "OnTopOfCoreBlur", true)
+end
+end)
 
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
