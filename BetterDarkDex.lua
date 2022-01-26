@@ -113,7 +113,7 @@ ContentProvider:Preload("rbxassetid://8555825815")
 pcall(function() if syn then syn.protect_gui(Dex) end end)
 
 pcall(function()
-if gethui then
+if identifyexecutor() == "ScriptWare" then
 Dex.Parent = gethui()
 Dex.Name = "RobloxGui"
 else
