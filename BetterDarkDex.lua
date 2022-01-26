@@ -122,6 +122,7 @@ Dex.Name = "RobloxGui"
 end
 end)
 
+
 local function Load(Obj, Url)
 local function GiveOwnGlobals(Func, Script)
     local Fenv = {}
@@ -145,9 +146,10 @@ local function GiveOwnGlobals(Func, Script)
     setfenv(Func, Fenv)
     return Func
 end
+
 local function LoadScripts(Script)
     if Script.ClassName == "Script" or Script.ClassName == "LocalScript" then
-        spawn(function()
+        task.spawn(function()
             GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
         end)
     end
@@ -158,12 +160,3 @@ end
 LoadScripts(Obj)
 end
 Load(Dex)
-
-pcall(function()
-for i, v in next, getconnections(Services.UserInputService.TextBoxFocused) do
-    v:Disable()
-end
-for i, v in next, getconnections(Services.UserInputService.TextBoxFocusReleased) do
-    v:Disable()
-end 
-end)
