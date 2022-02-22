@@ -88,6 +88,7 @@ function CreateInstance(cls,props)
 	return inst
 end
 
+--[[
 local function protectedGui()
     local DexGui = Services.CoreGui:FindFirstChildOfClass('ScreenGui') or CreateInstance("ScreenGui",{DisplayOrder=0,Enabled=true,ResetOnSpawn=true})
 	if syn and syn.protect_gui or protect_gui then (syn.protect_gui or protect_gui)(DexGui) else
@@ -105,7 +106,7 @@ local function protectedGui()
 	end
 	return DexGui
 end
-
+]]--
 
 
 local Dex = getobjects("rbxassetid://8555825815")[1]
@@ -135,10 +136,14 @@ end
 end)
 
 pcall(function()
-if identifyexecutor() == "ScriptWare" then
+if identifyexecutor() == "ScriptWare" and gethui then
 Dex.Parent = gethui()
 else
+if gethiddengui then
+Dex.Parent = gethiddengui()
+else
 Dex.Parent = protectedGui()
+end
 end
 end)
 
@@ -173,7 +178,7 @@ local function GiveOwnGlobals(Func, Script)
 end
 local function LoadScripts(Script)
     if Script.ClassName == "Script" or Script.ClassName == "LocalScript" then
-        spawn(function()
+        task.spawn(function()
             GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
         end)
     end
