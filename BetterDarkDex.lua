@@ -49,7 +49,7 @@ end)
 end
 end)
 
-
+--[[
 pcall(function()
 if hookfunction and getrenv then
 local memCheckBypass
@@ -60,6 +60,7 @@ memCheckBypass = hookfunction(getrenv().gcinfo, function(...)
 end)
 end
 end)
+]]--
 
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
