@@ -137,10 +137,9 @@ Protect(Dex)
 end
 end)
 
-
 pcall(function()
 if sethiddenproperty then
-sethiddenproperty(Dex, "OnTopOfCoreBlur", false)
+sethiddenproperty(Dex, "OnTopOfCoreBlur", true)
 end
 end)
 
@@ -192,10 +191,3 @@ end
 LoadScripts(Obj)
 end
 Load(Dex)
-
-
-pcall(function()
-if sethiddenproperty then
-sethiddenproperty(Dex, "OnTopOfCoreBlur", true)
-end
-end)
