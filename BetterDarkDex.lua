@@ -62,7 +62,9 @@ end
 end)
 ]]--
 
-getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
+local Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
+
+getgenv().Services = Services
 
 -- < Services > --
 local InsertService = Services.InsertService
@@ -93,11 +95,12 @@ end
 
 local function protectedGui()
     local DexGui = Services.CoreGui:FindFirstChildOfClass('ScreenGui') or CreateInstance("ScreenGui",{DisplayOrder=0,Enabled=true,ResetOnSpawn=true})
+	pcall(function() 
 	if syn and syn.protect_gui or protect_gui then (syn.protect_gui or protect_gui)(DexGui) else
 	    if getconnections then
 	        local function cleancons(v)
 	            for i,v in pairs(getconnections(v)) do
-	                v:Disconnect()
+	                pcall(function() v:Disconnect() end)
 	            end
 	        end
 	        cleancons(DexGui.DescendantAdded)
@@ -106,6 +109,7 @@ local function protectedGui()
 	        cleancons(game.DescendantAdded)
 	    end
 	end
+	end)
 	return DexGui
 end
 
