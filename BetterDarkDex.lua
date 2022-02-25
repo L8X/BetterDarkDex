@@ -49,6 +49,7 @@ end)
 end
 end)
 
+--[[
 pcall(function()
 if hookfunction and getrenv then
 local memCheckBypass
@@ -59,6 +60,7 @@ memCheckBypass = hookfunction(getrenv().gcinfo, function(...)
 end)
 end
 end)
+]]--
 
 getgenv().Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
 
@@ -135,6 +137,13 @@ Protect(Dex)
 end
 end)
 
+
+pcall(function()
+if sethiddenproperty then
+sethiddenproperty(Dex, "OnTopOfCoreBlur", false)
+end
+end)
+
 pcall(function()
 if identifyexecutor() == "ScriptWare" and gethui then
 Dex.Parent = gethui()
@@ -144,12 +153,6 @@ Dex.Parent = gethiddengui()
 else
 Dex.Parent = protectedGui()
 end
-end
-end)
-
-pcall(function()
-if sethiddenproperty then
-sethiddenproperty(Dex, "OnTopOfCoreBlur", true)
 end
 end)
 
@@ -189,3 +192,10 @@ end
 LoadScripts(Obj)
 end
 Load(Dex)
+
+
+pcall(function()
+if sethiddenproperty then
+sethiddenproperty(Dex, "OnTopOfCoreBlur", true)
+end
+end)
