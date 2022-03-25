@@ -2,6 +2,10 @@ if (getgenv().DEX_LOADED) then return; end
 
 getgenv().DEX_LOADED = true
 
+local cloneref = cloneref or function(ref)
+return ref
+end
+
 local Rand = math.random(1e9, 2e9)
 math.randomseed(tick())
 warn(Rand)
@@ -13,13 +17,6 @@ local function decomp(a)
 end
 
 getgenv().decompile = decomp
-end
-end)
-
-pcall(function()
-if setreadonly and getrawmetatable then
-local mt = getrawmetatable(game)
-setreadonly(mt, false)
 end
 end)
 
@@ -49,28 +46,14 @@ end)
 end
 end)
 
---[[
-pcall(function()
-if hookfunction and getrenv then
-local memCheckBypass
-
-memCheckBypass = hookfunction(getrenv().gcinfo, function(...)
-   --warn("Script tried to memory check, PATH: \n"..debug.traceback())
-   return tonumber(math.random(55-math.random(1,45), 110-math.random(1,35)*0.215-math.random(1, 45)))
-end)
-end
-end)
-]]--
-
 local Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
-
 getgenv().Services = Services
 
 -- < Services > --
-local InsertService = Services.InsertService
-local CoreGui = Services.CoreGui
-local ScriptContext = Services.ScriptContext
-local ContentProvider = Services.ContentProvider
+local InsertService = cloneref(Services.InsertService)
+local CoreGui = cloneref(Services.CoreGui)
+local ScriptContext = cloneref(Services.ScriptContext)
+local ContentProvider = cloneref(Services.ContentProvider)
 
 -- < Aliases > --
 getgenv().getobjects = function(a)
@@ -84,78 +67,17 @@ getgenv().getobjects = function(a)
     return Objects
 end
 
-function CreateInstance(cls,props)
-	local inst = Instance.new(cls)
-	for i,v in pairs(props) do
-		inst[i] = v
-	end
-	return inst
-end
-
-
-local function protectedGui()
-    local DexGui = Services.CoreGui:FindFirstChildOfClass('ScreenGui') or CreateInstance("ScreenGui",{DisplayOrder=0,Enabled=true,ResetOnSpawn=true})
-	pcall(function() 
-	if syn and syn.protect_gui or protect_gui then (syn.protect_gui or protect_gui)(DexGui) else
-	    if getconnections then
-	        local function cleancons(v)
-	            for i,v in pairs(getconnections(v)) do
-	                pcall(function() v:Disconnect() end)
-	            end
-	        end
-	        cleancons(DexGui.DescendantAdded)
-	        cleancons(DexGui.ChildAdded)
-	        cleancons(Services.CoreGui.DescendantAdded)
-	        cleancons(game.DescendantAdded)
-	    end
-	end
-	end)
-	return DexGui
-end
-
-
-
 local Dex = getobjects("rbxassetid://8555825815")[1]
 
-ContentProvider:Preload("rbxassetid://8555825815")
-
-local function Preload(obj)
-    for i,v in pairs(obj:GetDescendants()) do
-        ContentProvider:PreloadAsync({v})
-    end
-end
-
-Preload(Dex)
- 
 pcall(function() if syn then syn.protect_gui(Dex) end end)
 
-local function Protect(obj)
-    for i,v in pairs(obj:GetDescendants()) do
-        syn.protect_gui(v)
-    end
-end
+Dex.Name = "RobloxGui" -- Bypass attempt for a few vulnerabilities
 
 pcall(function()
-if syn and syn.protect_gui then
-Protect(Dex)
-end
-end)
-
-pcall(function()
-if sethiddenproperty then
-sethiddenproperty(Dex, "OnTopOfCoreBlur", true)
-end
-end)
-
-pcall(function()
-if identifyexecutor() == "ScriptWare" and gethui then
+if gethui and identifyexecutor() == "ScriptWare" then
 Dex.Parent = gethui()
 else
-if gethiddengui then
-Dex.Parent = gethiddengui()
-else
-Dex.Parent = protectedGui()
-end
+Dex.Parent = CoreGui
 end
 end)
 
@@ -184,7 +106,7 @@ local function GiveOwnGlobals(Func, Script)
 end
 local function LoadScripts(Script)
     if Script.ClassName == "Script" or Script.ClassName == "LocalScript" then
-        task.spawn(function()
+        spawn(function()
             GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
         end)
     end
