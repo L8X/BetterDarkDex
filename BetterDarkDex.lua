@@ -13,7 +13,7 @@ warn(Rand)
 pcall(function()
 if identifyexecutor() == "ScriptWare" then
 local function decomp(a)
-    return tostring(disassemble(getscriptbytecode(a)))
+    return tostring(disassemble(a))
 end
 
 getgenv().decompile = decomp
