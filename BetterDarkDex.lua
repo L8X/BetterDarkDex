@@ -1,120 +1,119 @@
--- syndexpro.lua --
+if (getgenv().DEX_LOADED) then return; end
 
-local function NSIK_fake_script()
-			
+getgenv().DEX_LOADED = true
+
 local cloneref = cloneref or function(ref)
 return ref
 end
 
--- < Functions > --
+local Rand = math.random(1e9, 2e9)
+math.randomseed(tick())
+warn(Rand)
 
-local CoreGui = cloneref(game:GetService("CoreGui"))
-local RemoteDebugWindow = CoreGui:FindFirstChild("RemoteDebugWindow", true)
-if RemoteDebugWindow then
-    RemoteDebugWindow.Parent:Destroy()
-end end
+pcall(function()
+if identifyexecutor() == "ScriptWare" then
+local function decomp(a)
+    return tostring(disassemble(getscriptbytecode(a)))
+end
 
--- < Services > --	
-local CoreGui = cloneref(game:GetService("CoreGui"))
-local ContentProvider = cloneref(game:GetService("ContentProvider"))
-local InsertService = cloneref(game:GetService("InsertService"))
+getgenv().decompile = decomp
+end
+end)
+
+pcall(function()
+if hookmetamethod and hookfunction then
+local OldIndex
+OldIndex = hookmetamethod(game, "__index", function(Self, Index)
+    return OldIndex(Self, Index)
+end)
+
+local OldNewIndex
+OldNewIndex = hookmetamethod(game, "__newindex", function(Self, Index, Value)
+    return OldNewIndex(Self, Index, Value)
+end)
+
+local OldNamecall
+OldNamecall = hookmetamethod(game, "__namecall", function(Self, ...)
+    return OldNamecall(Self, ...)
+end)
+
+local mt = getrawmetatable(game)
+
+local old
+old = hookfunction(mt.__namecall, function(...)
+   return old(...)
+end)
+end
+end)
+
+local Services = setmetatable({},{__index=function(s,r) return game:service(r) end})
+getgenv().Services = Services
+
+-- < Services > --
+local InsertService = cloneref(Services.InsertService)
+local CoreGui = cloneref(Services.CoreGui)
+local ScriptContext = cloneref(Services.ScriptContext)
+local ContentProvider = cloneref(Services.ContentProvider)
+
 -- < Aliases > --
-local table_insert = table.insert
-local table_foreach = table.foreach
-local string_char = string.char
 getgenv().getobjects = function(a)
     local Objects = {}
     if a then
         local b = InsertService:LoadLocalAsset(a)
         if b then 
-            table_insert(Objects, b) 
+            table.insert(Objects, b) 
         end
     end
     return Objects
 end
 
--- < Values > --
-local Charset = {}
-local Random_Instance = Random.new()
--- < Source > --
+local Dex = getobjects("rbxassetid://8555825815")[1]
 
-for i = 48,  57 do 
-	table_insert(Charset, string_char(i))
-end
+pcall(function() if syn then syn.protect_gui(Dex) end end)
 
-for i = 65,  90 do 
-	table_insert(Charset, string_char(i))
-end
-
-for i = 97, 122 do
-	table_insert(Charset, string_char(i))
-end
-
-function RandomCharacters(length)
-	return length > 0 and RandomCharacters(length - 1)..Charset[Random_Instance:NextInteger(1, #Charset)] or ""
-end
-			
-local HTTPService = cloneref(game:GetService("HttpService"))
-local CoreGui     = cloneref(game:GetService("CoreGui"))
-local ScriptContext = cloneref(game:GetService("ScriptContext"))
-local RandomObject = CoreGui:FindFirstChildOfClass("ScreenGui")
-local RandomObject2 = Instance.new("Folder", RandomObject)
-
-pcall(function() 
-if syn and syn.protect_gui then
-syn.protect_gui(RandomObject2)
-end
-end)
-
-local CRandomObject2 = cloneref(RandomObject2)
-
-pcall(function() 
-if syn and syn.protect_gui then
-syn.protect_gui(CRandomObject2)
-end
-end)
-	
-local Dex = cloneref(getobjects("rbxassetid://7995973532")[1])
-ContentProvider:Preload("rbxassetid://7995973532")
+Dex.Name = "RobloxGui" -- Bypass attempt for a few vulnerabilities
 
 pcall(function()
-task.spawn(function()
-for i,v in pairs(Dex:GetDescendants()) do
-    pcall(function() syn.protect_gui(v) end)
-    end
+if gethui and identifyexecutor() == "ScriptWare" then
+Dex.Parent = gethui()
+else
+Dex.Parent = CoreGui
+end
 end)
-end)
-
-Dex.Name = "RobloxGui" -- bypass attempt??
-
-Dex.Parent = gethiddengui and gethiddengui() or gethui and gethui() or CRandomObject2
 
 local function Load(Obj, Url)
-	local function GiveOwnGlobals(Func, Script)
-		local Fenv, RealFenv, FenvMt = {}, {script = Script}, {}
-		FenvMt.__index = function(a,b)
-			return RealFenv[b] == nil and getgenv()[b] or RealFenv[b]
-		end
-		FenvMt.__newindex = function(a, b, c)
-			if RealFenv[b] == nil then 
-				getgenv()[b] = c
-		else 
-			RealFenv[b] = c 
-			end
-		end
-		setmetatable(Fenv, FenvMt)
-		pcall(setfenv, Func, Fenv)
-		return Func
-	end
-	local function LoadScripts(_, Script)
-		if Script:IsA("LocalScript") then
-			task.spawn(function()
-				GiveOwnGlobals(loadstring(Script.Source,"="..Script:GetFullName()), Script)()
-			end)
-		end
-		table_foreach(Script:GetChildren(), LoadScripts)
-	end
-LoadScripts(nil, Obj)
+local function GiveOwnGlobals(Func, Script)
+    local Fenv = {}
+    local RealFenv = {script = Script}
+    local FenvMt = {}
+    FenvMt.__index = function(a,b)
+        if RealFenv[b] == nil then
+            return getgenv()[b]
+        else
+            return RealFenv[b]
+        end
+    end
+    FenvMt.__newindex = function(a, b, c)
+        if RealFenv[b] == nil then
+            getgenv()[b] = c
+        else
+            RealFenv[b] = c
+        end
+    end
+    setmetatable(Fenv, FenvMt)
+    setfenv(Func, Fenv)
+    return Func
+end
+local function LoadScripts(Script)
+    if Script.ClassName == "Script" or Script.ClassName == "LocalScript" then
+        spawn(function()
+            GiveOwnGlobals(loadstring(Script.Source, "=" .. Script:GetFullName()), Script)()
+        end)
+    end
+    for i,v in pairs(Script:GetChildren()) do
+    LoadScripts(v)
+    end
+end
+LoadScripts(Obj)
 end
 Load(Dex)
-coroutine.wrap(NSIK_fake_script)()
